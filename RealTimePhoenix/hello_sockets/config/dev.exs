@@ -73,3 +73,9 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# Configure statsd_logger to send metrics to the local statsd server
+config :statsd_logger, port: 8126
+
+# Configure statixn per-connection configuration
+config :statix, HelloSockets.Statix, port: 8126
