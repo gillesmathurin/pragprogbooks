@@ -75,7 +75,7 @@ config :phoenix_live_view,
 config :swoosh, :api_client, false
 
 # Configure statsd_logger to send metrics to the local statsd server
-config :statsd_logger, port: 8126
+config :statsd_logger, port: 8125
 
-# Configure statixn per-connection configuration
-config :statix, HelloSockets.Statix, port: 8126
+# Configure statixn per-connection configuration , b
+config :statix, HelloSockets.Statix, port: 8125

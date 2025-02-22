@@ -112,3 +112,17 @@ dupeChannel.on("number", payload => {
   console.log("new number received", payload)
 })
 dupeChannel.join()
+
+let statsSocket = new Socket("/stats_socket", {})
+statsSocket.connect()
+
+let statsChannelInvalid = statsSocket.channel("invalid")
+statsChannelInvalid.join()
+  .receive("error", () => statsChannelInvalid.leave()) // leave immediately
+
+let statsChannelValid = statsSocket.channel("valid")
+statsChannelValid.join()
+
+for (let i = 0; i < 5; i++) {
+  statsChannelValid.push("ping")
+}
