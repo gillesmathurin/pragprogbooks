@@ -4,7 +4,9 @@ defmodule HelloSocketsWeb.StatsSocket do
   channel "*", HelloSocketsWeb.StatsChannel
 
   def connect(_params, socket, _connect_info) do
-    HelloSockets.Statix.increment("socket_connect", 1, tags: ["status:success", "socket:StatsSocket"])
+    HelloSockets.Statix.increment("socket_connect", 1,
+      tags: ["status:success", "socket:StatsSocket"]
+    )
 
     {:ok, socket}
   end

@@ -113,16 +113,51 @@ dupeChannel.on("number", payload => {
 })
 dupeChannel.join()
 
-let statsSocket = new Socket("/stats_socket", {})
-statsSocket.connect()
+// let statsSocket = new Socket("/stats_socket", {})
+// statsSocket.connect()
 
-let statsChannelInvalid = statsSocket.channel("invalid")
-statsChannelInvalid.join()
-  .receive("error", () => statsChannelInvalid.leave()) // leave immediately
+// let statsChannelInvalid = statsSocket.channel("invalid")
+// statsChannelInvalid.join()
+//   .receive("error", () => statsChannelInvalid.leave()) // leave immediately
 
-let statsChannelValid = statsSocket.channel("valid")
-statsChannelValid.join()
+// let statsChannelValid = statsSocket.channel("valid")
+// statsChannelValid.join()
 
-for (let i = 0; i < 5; i++) {
-  statsChannelValid.push("ping")
-}
+// for (let i = 0; i < 5; i++) {
+//   statsChannelValid.push("ping")
+// }
+
+// let slowStatsSocket = new Socket("/stats_socket", {})
+// slowStatsSocket.connect()
+
+// let slowStatsChannel = slowStatsSocket.channel("valid")
+// slowStatsChannel.join()
+
+// for (let i = 0; i < 5; i++) {
+//   slowStatsChannel.push("ping")
+//     .receive("ok", () => { console.log("slow ping response received", i) })
+// }
+// console.log("5 slow pings requested")
+
+// let fastStatsSocket = new Socket("/stats_socket", {})
+// fastStatsSocket.connect()
+
+// let fastStatsChannel = fastStatsSocket.channel("valid")
+// fastStatsChannel.join()
+
+// for (let i = 0; i < 5; i++) {
+//   fastStatsChannel.push("parallel_slow_ping")
+//     .receive("ok", () => { console.log("Paralell slow ping response", i) })
+// }
+
+let authUserChannel = authSocket.channel(`user:${window.userId}`)
+
+authUserChannel.on("push", (payload) => {
+  console.log("received auth user push", payload)
+})
+
+authUserChannel.on("push_timed", (payload) => {
+  console.log("received timed auth user push", payload)
+})
+
+authUserChannel.join()

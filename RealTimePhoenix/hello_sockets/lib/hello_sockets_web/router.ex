@@ -19,7 +19,6 @@ defmodule HelloSocketsWeb.Router do
 
     get "/", PageController, :home
     get "/index", PageController, :index
-
   end
 
   # Other scopes may use custom stacks.

@@ -13,6 +13,7 @@ defmodule HelloSocketsWeb.AuthSocket do
     case verify(socket, token) do
       {:ok, user_id} ->
         {:ok, assign(socket, :user_id, user_id)}
+
       {:error, err} ->
         Logger.error("#{__MODULE__}: connect error #{inspect(err)}")
         :error

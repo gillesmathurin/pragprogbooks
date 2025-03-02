@@ -6,13 +6,15 @@ defmodule HelloSocketsWeb.StatsChannel do
     {:ok, socket}
   end
 
-  def join("invalid", _payload, socket) do
+  def join("invalid", _payload, _socket) do
     channel_join_increment("fail")
     {:error, %{reason: "always fails"}}
   end
 
   defp channel_join_increment(status) do
-    HelloSockets.Statix.increment("channel_join", 1, tags: ["status:#{status}", "channel:StatsChannel"])
+    HelloSockets.Statix.increment("channel_join", 1,
+      tags: ["status:#{status}", "channel:StatsChannel"]
+    )
   end
 
   def handle_in("ping", _payload, socket) do
@@ -25,5 +27,16 @@ defmodule HelloSocketsWeb.StatsChannel do
   def handle_in("slow_ping", _payload, socket) do
     Process.sleep(3_000)
     {:reply, {:ok, %{ping: "pong"}}, socket}
+  end
+
+  def handle_in("parallel_slow_ping", _payload, socket) do
+    ref = socket_ref(socket)
+
+    Task.start_link(fn ->
+      Process.sleep(3_000)
+      Phoenix.Channel.reply(ref, {:ok, %{ping: "pong"}})
+    end)
+
+    {:noreply, socket}
   end
 end

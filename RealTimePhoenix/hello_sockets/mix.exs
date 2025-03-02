@@ -56,7 +56,8 @@ defmodule HelloSockets.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:statix, "~> 1.4"},
-      {:statsd_logger, "~> 1.1", only: [:dev, :test]}
+      {:statsd_logger, "~> 1.1", only: [:dev, :test]},
+      {:gen_stage, "~> 1.2.1"}
     ]
   end
 

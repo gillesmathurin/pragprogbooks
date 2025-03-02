@@ -20,24 +20,24 @@ defmodule HelloSocketsWeb.AuthSocketTest do
       params = %{"token" => generate_token(1, salt: "invalid")}
 
       assert capture_log(fn ->
-        assert :error = connect(AuthSocket, params)
-      end) =~ "[error] #{AuthSocket}: connect error :invalid"
+               assert :error = connect(AuthSocket, params)
+             end) =~ "[error] #{AuthSocket}: connect error :invalid"
     end
 
     test "cannot be connected to without a token" do
       params = %{}
 
       assert capture_log(fn ->
-        assert :error = connect(AuthSocket, params)
-      end) =~ "[error] #{AuthSocket}: connect error missing params"
+               assert :error = connect(AuthSocket, params)
+             end) =~ "[error] #{AuthSocket}: connect error missing params"
     end
 
     test "cannot be connected to with a nonsense token" do
       params = %{"token" => "nonsense"}
 
       assert capture_log(fn ->
-        assert :error = connect(AuthSocket, params)
-      end) =~ "[error] #{AuthSocket}: connect error :invalid"
+               assert :error = connect(AuthSocket, params)
+             end) =~ "[error] #{AuthSocket}: connect error :invalid"
     end
   end
 

@@ -9,9 +9,9 @@ defmodule HelloSocketsWeb.DedupeChannelTest do
 
   defp validate_buffer_contents(socket, expected_contents) do
     assert :sys.get_state(socket.channel_pid).assigns == %{
-      awaiting_buffer?: true,
-      buffer: expected_contents
-    }
+             awaiting_buffer?: true,
+             buffer: expected_contents
+           }
 
     socket
   end
@@ -56,10 +56,10 @@ defmodule HelloSocketsWeb.DedupeChannelTest do
     Process.sleep(1050)
 
     assert {:messages,
-     [
-      %Phoenix.Socket.Message{event: "number", payload: %{value: 1}},
-      %Phoenix.Socket.Message{event: "number", payload: %{value: 2}},
-      %Phoenix.Socket.Message{event: "number", payload: %{value: 3}}
-     ]} = Process.info(self(), :messages)
+            [
+              %Phoenix.Socket.Message{event: "number", payload: %{value: 1}},
+              %Phoenix.Socket.Message{event: "number", payload: %{value: 2}},
+              %Phoenix.Socket.Message{event: "number", payload: %{value: 3}}
+            ]} = Process.info(self(), :messages)
   end
 end
