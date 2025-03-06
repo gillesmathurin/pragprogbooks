@@ -2,11 +2,10 @@
   <%= for size <- product_size_options(@product) do %>
     <button
       type="submit"
-      class="size-container__entry
-             size-container__entry--level-<%= size.level %>"
+      class={"size-container__entry size-container__entry--level-#{size.level}"}
       name="item_id"
-      value="<%= size.id %>"
-      <%= if size.disabled?, do: "disabled", else: "" %>
+      value={size.id}
+      {if size.disabled?, do: [disabled: "disabled"], else: []} 
     >
       <%= size.text %>
     </button>

@@ -1,8 +1,8 @@
 <main class="product-list">
   <%= for product <- @products do %>
-    <div class="product-listing" data-product-id="<%= product.id %>">
+    <div class="product-listing" data-product-id={product.id}>
       <div class="product-listing__image-wrap">
-        <img src="<%= product.main_image_url %>" />
+        <img src={product.main_image_url} />
       </div>
 
       <div class="product-listing__details">
@@ -13,9 +13,9 @@
         <div>$<%= product.price_usd %></div>
 
         <%= if product.released do %>
-          <%= render("_sizes.html", product: product) %>
+          <%= Phoenix.Component.render(Sneakers23Web.ProductHtml, "_sizes.html", product: product) %>
         <% else %>
-          <h4 class="product-soon-<%= product.id %>">
+          <h4 class={"product-soon-#{product.id}"}>
             coming soon...
           </h4>
         <% end %>
