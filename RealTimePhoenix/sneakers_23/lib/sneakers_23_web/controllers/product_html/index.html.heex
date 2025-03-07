@@ -13,7 +13,7 @@
         <div>$<%= product.price_usd %></div>
 
         <%= if product.released do %>
-          <%= Phoenix.Component.render(Sneakers23Web.ProductHtml, "_sizes.html", product: product) %>
+          <.sizes product={product} />
         <% else %>
           <h4 class={"product-soon-#{product.id}"}>
             coming soon...

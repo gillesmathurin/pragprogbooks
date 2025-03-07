@@ -19,6 +19,9 @@ defmodule Sneakers23Web.CoreComponents do
 
   alias Phoenix.LiveView.JS
 
+  # Import your product components
+  import Sneakers23Web.ProductComponents
+
   @doc """
   Renders a modal.
 
