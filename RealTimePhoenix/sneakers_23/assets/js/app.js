@@ -21,6 +21,8 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import { productSocket } from "./socket"
+import dom from "./dom"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
@@ -42,3 +44,24 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+const productIds = dom.getProductIds()
+
+if (productIds.length > 0) {
+  productSocket.connect()
+  productIds.forEach((id) => setupProductChannel(productSocket, id))
+}
+
+function setupProductChannel(socket, productId) {
+  const productChannel = socket.channel(`product:${productId}`)
+  productChannel.join()
+    .receive("ok", () => {
+      console.log(`Joined product:${productId}`)
+    })
+    .receive("error", () => {
+      console.log(`Failed to join product:${productId}`)
+    })
+
+  productChannel.on('released', ({ size_html }) => { 
+    dom.replaceProductComingSoon(productId, size_html)
+  })
+}
