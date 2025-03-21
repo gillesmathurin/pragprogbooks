@@ -1,7 +1,7 @@
 defmodule Sneakers23Web.ProductChannel do
   use Phoenix.Channel
 
-  alias Sneakers23Web.{Endpoint, ProductHTML}
+  alias Sneakers23Web.{Endpoint, ProductHTML, ProductComponents}
 
   def join("product:" <> _sku, %{}, socket) do
     {:ok, socket}
@@ -15,5 +15,20 @@ defmodule Sneakers23Web.ProductChannel do
       product: product
     )
     Endpoint.broadcast("product:#{id}", "released", %{size_html: size_html})
+  end
+
+  def notify_item_stock_change(
+    previous_item: %{available_count: old},
+    current_item: %{available_count: new, id: id, product_id: p_id}) do
+    case {ProductComponents.availability_to_level(old), ProductComponents.availability_to_level(new)} do
+      {same, same} when same != "out" ->
+        {:ok, :no_change}
+
+      {_, new_level} ->
+        Endpoint.broadcast("product:#{p_id}", "stock_change",
+         %{product_id: p_id, item_id: id, level: new_level})
+
+        {:ok, :broadcast}
+    end
   end
 end

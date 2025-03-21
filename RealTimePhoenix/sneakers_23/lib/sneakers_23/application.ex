@@ -11,6 +11,8 @@ defmodule Sneakers23.Application do
       Sneakers23Web.Telemetry,
       Sneakers23.Repo,
       Sneakers23.Inventory,
+      Sneakers23.Replication,
+
       {DNSCluster, query: Application.get_env(:sneakers_23, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Sneakers23.PubSub},
       # Start the Finch HTTP client for sending emails
