@@ -9,7 +9,8 @@ defmodule Sneakers23.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      erlang: [wx: true, observer: true]
     ]
   end
 
@@ -19,7 +20,7 @@ defmodule Sneakers23.MixProject do
   def application do
     [
       mod: {Sneakers23.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :wx, :dns_cluster, :observer]
     ]
   end
 
@@ -57,7 +58,8 @@ defmodule Sneakers23.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:wallaby, "~> 0.30.0", only: :test}
     ]
   end
 
@@ -79,7 +81,12 @@ defmodule Sneakers23.MixProject do
         "tailwind sneakers_23 --minify",
         "esbuild sneakers_23 --minify",
         "phx.digest"
-      ]
+      ],
+      # "deps.get": ["deps.get", &set_wx_config/1]
     ]
   end
+
+  # defp set_wx_config(_) do
+  #   System.put_env("KERL_CONFIGURE_OPTIONS", "--with-wx --with-wx-config=/opt/homebrew/bin/wx-config")
+  # end
 end
