@@ -28,5 +28,13 @@
   <div class="mx-auto max-w-2xl">
     <.flash_group flash={@flash} />
     {@inner_content}
+
+    <%= if assigns[:cart_id] do %>
+      <div id="cart-container"></div>
+
+      <script type="text/javascript">
+        window.cartId = "<%= @cart_id %>"
+      </script>
+    <% end %>
   </div>
 </main>
