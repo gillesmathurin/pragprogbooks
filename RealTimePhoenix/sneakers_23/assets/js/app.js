@@ -23,6 +23,7 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import { productSocket } from "./socket"
 import dom from "./dom"
+import Cart from "./cart"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
@@ -44,12 +45,14 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-const productIds = dom.getProductIds()
+productSocket.connect()
 
-if (productIds.length > 0) {
-  productSocket.connect()
-  productIds.forEach((id) => setupProductChannel(productSocket, id))
-}
+const productIds = dom.getProductIds()
+productIds.forEach((id) => setupProductChannel(productSocket, id))
+
+const cartChannel = Cart.setupCartChannel(productSocket, window.cartId, {
+  onCartChange: (newCart) => { dom.renderCartHtml(newCart) }
+})
 
 function setupProductChannel(socket, productId) {
   const productChannel = socket.channel(`product:${productId}`)

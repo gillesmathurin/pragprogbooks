@@ -1,3 +1,5 @@
+import { getCartHtml } from './cartRenderer.js'
+
 const dom = {}
 
 function getProductIds() {
@@ -30,5 +32,10 @@ function removeStockLevelClasses(el) {
 dom.getProductIds = getProductIds
 dom.replaceProductComingSoon = replaceProductComingSoon
 dom.updateItemLevel = updateItemLevel
+
+dom.renderCartHtml = (cart) => {
+  const cartContainer = document.getElementById("cart-container")
+  cartContainer.innerHTML = getCartHtml(cart)
+}
 
 export default dom
