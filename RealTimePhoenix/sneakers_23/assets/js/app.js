@@ -54,6 +54,10 @@ const cartChannel = Cart.setupCartChannel(productSocket, window.cartId, {
   onCartChange: (newCart) => { dom.renderCartHtml(newCart) }
 })
 
+dom.onItemClick((itemId) => {
+  Cart.addCartItem(cartChannel, itemId)
+})
+
 function setupProductChannel(socket, productId) {
   const productChannel = socket.channel(`product:${productId}`)
   productChannel.join()
