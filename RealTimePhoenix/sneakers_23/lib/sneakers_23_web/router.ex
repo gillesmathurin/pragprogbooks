@@ -20,6 +20,9 @@ defmodule Sneakers23Web.Router do
 
     get "/", ProductController, :index
     get "/home", PageController, :home
+    get "/checkout", CheckoutController, :show
+    post "/checkout", CheckoutController, :purchase
+    get "/checkout/complete", CheckoutController, :success
   end
 
   # Other scopes may use custom stacks.
