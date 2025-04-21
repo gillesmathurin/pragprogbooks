@@ -26,7 +26,7 @@ defmodule Sneakers23Web.CheckoutController do
     end
   end
 
-  def show(conn, _params), do: redirect(conn, to: Routes.product_path(conn, :index))
+  def show(conn, _params), do: redirect(conn, to: Sneakers23Web.Router.Helpers.product_path(conn, :index))
 
   def purchase(conn, params) do
     with serialized_cart <- Map.get(params, "serialized_cart"),
@@ -35,27 +35,27 @@ defmodule Sneakers23Web.CheckoutController do
          {:availability, false} <- {:availability, has_out_of_stock_items?(items)},
          {:released, false} <- {:released, has_unreleased_items?(items)},
          {:purchase, {:ok, _}} <- {:purchase, Sneakers23.Checkout.purchase_cart(cart)} do
-      redirect(conn, to: Routes.checkout_path(conn, :success))
+      redirect(conn, to: Sneakers23Web.Router.Helpers.checkout_path(conn, :success))
     else
       %{items: []} ->
         conn
         |> put_flash(:error, "Your cart is empty")
-        |> redirect(to: Routes.checkout_path(conn, :show, params))
+        |> redirect(to: Sneakers23Web.Router.Helpers.checkout_path(conn, :show, params))
 
       {:availability, true} ->
         conn
         |> put_flash(:error, "Your cart has out-of-stock shoes")
-        |> redirect(to: Routes.checkout_path(conn, :show, params))
+        |> redirect(to: Sneakers23Web.Router.Helpers.checkout_path(conn, :show, params))
 
       {:released, true} ->
         conn
         |> put_flash(:error, "Your cart has unreleased shoes")
-        |> redirect(to: Routes.checkout_path(conn, :show, params))
+        |> redirect(to: Sneakers23Web.Router.Helpers.checkout_path(conn, :show, params))
 
       {:purchase, _} ->
         conn
         |> put_flash(:error, "Your purchase could not be completed")
-        |> redirect(to: Routes.checkout_path(conn, :show, params))
+        |> redirect(to: Sneakers23Web.Router.Helpers.checkout_path(conn, :show, params))
     end
   end
 

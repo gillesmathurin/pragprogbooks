@@ -24,6 +24,7 @@ defmodule HelloSockets.Application do
       # {HelloSockets.Worker, arg},
       # Start to serve requests, typically the last entry
       HelloSocketsWeb.Endpoint
+      {HelloSocketsWeb.UserTracker, [pool_size: :erlang.system_info(:schedulers_online)]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

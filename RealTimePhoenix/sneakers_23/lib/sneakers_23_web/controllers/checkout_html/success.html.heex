@@ -6,7 +6,8 @@
     purchased here. Your cart has been cleared.
   </p>
 
-  <%= link("Go Home", to: Routes.product_path(@conn, :index)) %>
+  <%!--= link("Go Home", to: Sneakers23Web.Router.Helpers.product_path(@conn, :index)) --%>
+  <.link navigate={~p"/products"}>Go Home</.link>
 </div>
 
 <script type="text/javascript">

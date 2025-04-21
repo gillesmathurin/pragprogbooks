@@ -2,15 +2,15 @@
   <h2>Your Cart</h2>
 
 
-  <%= if get_flash(@conn, :error) do %>
-    <p class="alert alert-danger" role="alert">Sorry, <%= get_flash(@conn, :error) %>.</p>
+  <%= if @flash["error"] do %>
+    <p class="alert alert-danger" role="alert">Sorry, <%= @flash["error"] %>.</p>
   <% end %>
 
   <div>
     <%= for item <- @items do %>
-      <div class="product-listing" data-item-id="<%= item.id %>">
+      <div class="product-listing" data-item-id={item.id}>
         <div class="product-listing__image-wrap checkout__image-wrap">
-          <img src="<%= item.main_image_url %>" />
+          <img src={item.main_image_url} />
         </div>
 
         <div class="product-listing__details">
@@ -33,13 +33,23 @@
 
   <p>Normally, you'd enter a bunch of information. But this is a book example, so just click the button below.</p>
 
-  <%= form_for @conn, Routes.checkout_path(@conn, :purchase), fn f -> %>
-    <%= hidden_input f, :serialized_cart, value: @serialized_cart %>
-
+  <.form
+    method="POST"
+    action={~p"/checkout"}
+  >
+    <input type="hidden" name="serialized_cart" value={@serialized_cart} />
     <%= if @cant_purchase? do %>
-      <%= submit "SOME ITEMS NOT AVAILABLE", class: "purchase-button", disabled: true %>
+      <button
+        type="submit"
+        class="purchase-button"
+        disabled="disabled"
+      >
+        SOME ITEMS NOT AVAILABLE
+      </button>
     <% else %>
-      <%= submit "PURCHASE", class: "purchase-button" %>
+      <button type="submit" class="purchase-button">
+        PURCHASE
+      </button>
     <% end %>
-  <% end %>
+  </.form>
 </div>

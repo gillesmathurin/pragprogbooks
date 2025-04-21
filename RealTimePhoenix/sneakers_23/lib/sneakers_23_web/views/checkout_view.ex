@@ -6,6 +6,6 @@
 # We make no guarantees that this code is fit for any purpose.
 # Visit http://www.pragmaticprogrammer.com/titles/sbsockets for more book information.
 #---
-defmodule Sneakers23Web.CheckoutView do
-  use Sneakers23Web, :view
-end
+# defmodule Sneakers23Web.CheckoutView do
+#   # use Sneakers23Web, :view
+# end
