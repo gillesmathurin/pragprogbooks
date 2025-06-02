@@ -47,36 +47,40 @@ window.liveSocket = liveSocket
 
 productSocket.connect()
 
-const productIds = dom.getProductIds()
-productIds.forEach((id) => setupProductChannel(productSocket, id))
+// if (document.querySelectorAll("[data-phx-main]").length) {
+//   // connectToLiveView()
+// } else {
+//   const productIds = dom.getProductIds()
+//   productIds.forEach((id) => setupProductChannel(productSocket, id))
+// }
 
-const cartChannel = Cart.setupCartChannel(productSocket, window.cartId, {
-  onCartChange: (newCart) => { dom.renderCartHtml(newCart) }
-})
+// const cartChannel = Cart.setupCartChannel(productSocket, window.cartId, {
+//   onCartChange: (newCart) => { dom.renderCartHtml(newCart) }
+// })
 
-dom.onItemClick((itemId) => {
-  Cart.addCartItem(cartChannel, itemId)
-})
+// dom.onItemClick((itemId) => {
+//   Cart.addCartItem(cartChannel, itemId)
+// })
 
-dom.onItemRemoveClick((itemId) => {
-  Cart.removeCartItem(cartChannel, itemId)
-})
+// dom.onItemRemoveClick((itemId) => {
+//   Cart.removeCartItem(cartChannel, itemId)
+// })
 
-function setupProductChannel(socket, productId) {
-  const productChannel = socket.channel(`product:${productId}`)
-  productChannel.join()
-    .receive("ok", () => {
-      console.log(`Joined product:${productId}`)
-    })
-    .receive("error", () => {
-      console.log(`Failed to join product:${productId}`)
-    })
+// function setupProductChannel(socket, productId) {
+//   const productChannel = socket.channel(`product:${productId}`)
+//   productChannel.join()
+//     .receive("ok", () => {
+//       console.log(`Joined product:${productId}`)
+//     })
+//     .receive("error", () => {
+//       console.log(`Failed to join product:${productId}`)
+//     })
 
-  productChannel.on('released', ({ size_html }) => { 
-    dom.replaceProductComingSoon(productId, size_html)
-  })
+//   productChannel.on('released', ({ size_html }) => { 
+//     dom.replaceProductComingSoon(productId, size_html)
+//   })
 
-  productChannel.on('stock_change', ({ product_id, item_id, level }) => {
-    dom.updateItemLevel(item_id, level)
-  })
-}
+//   productChannel.on('stock_change', ({ product_id, item_id, level }) => {
+//     dom.updateItemLevel(item_id, level)
+//   })
+// }

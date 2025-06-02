@@ -83,3 +83,8 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :sneakers_23, admin_auth: [
+  username: "admin",
+  password: "password"
+]

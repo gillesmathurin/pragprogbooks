@@ -69,49 +69,49 @@ channel.join()
   
 export default socket
   
-console.log("send ping")
-channel.push("ping")
-  .receive("ok", resp => { console.log("receive", resp.ping) })
+// console.log("send ping")
+// channel.push("ping")
+//   .receive("ok", resp => { console.log("receive", resp.ping) })
 
-console.log("send pong")
-channel.push("pong")
-  .receive("ok", resp => { console.log("won't happen") })
-  .receive("error", resp => { console.error("won't happen yet") })
-  .receive("timeout", resp => { console.error("pong message timeout", resp) })
+// console.log("send pong")
+// channel.push("pong")
+//   .receive("ok", resp => { console.log("won't happen") })
+//   .receive("error", resp => { console.error("won't happen yet") })
+//   .receive("timeout", resp => { console.error("pong message timeout", resp) })
 
-channel.push("param_ping", {error: true})
-  .receive("error", resp => { console.error("param_ping error", resp) })
+// channel.push("param_ping", {error: true})
+//   .receive("error", resp => { console.error("param_ping error", resp) })
 
-channel.push("param_ping", {error: false, arr: [1,2]})
-  .receive("ok", resp => { console.log("param_ping ok:", resp) })
+// channel.push("param_ping", {error: false, arr: [1,2]})
+//   .receive("ok", resp => { console.log("param_ping ok:", resp) })
 
-channel.on("send_ping", payload => {
-  console.log("ping requested", payload)
-  channel.push("ping")
-    .receive("ok", resp => { console.log("receive", resp.ping) })
-})
+// channel.on("send_ping", payload => {
+//   console.log("ping requested", payload)
+//   channel.push("ping")
+//     .receive("ok", resp => { console.log("receive", resp.ping) })
+// })
 
-channel.push("invalid")
-  .receive("ok", resp => { console.log("won't happen") })
-  .receive("error", resp => { console.error("won't happen yet") })
-  .receive("timeout", resp => { console.error("invalid event timeout", resp) })
+// channel.push("invalid")
+//   .receive("ok", resp => { console.log("won't happen") })
+//   .receive("error", resp => { console.error("won't happen yet") })
+//   .receive("timeout", resp => { console.error("invalid event timeout", resp) })
 
-let authSocket = new Socket("/auth_socket", {params: {token: window.authToken}})
-authSocket.onOpen(() => { console.log("auth_socket connected") })
-authSocket.connect()
+// let authSocket = new Socket("/auth_socket", {params: {token: window.authToken}})
+// authSocket.onOpen(() => { console.log("auth_socket connected") })
+// authSocket.connect()
 
-let recurringChannel = authSocket.channel("recurring")
-recurringChannel.on("new_token", payload => {
-  console.log("received new token", payload)
-})
-recurringChannel.join()
+// let recurringChannel = authSocket.channel("recurring")
+// recurringChannel.on("new_token", payload => {
+//   console.log("received new token", payload)
+// })
+// recurringChannel.join()
 
-let dupeChannel = socket.channel("dupe")
+// let dupeChannel = socket.channel("dupe")
 
-dupeChannel.on("number", payload => {
-  console.log("new number received", payload)
-})
-dupeChannel.join()
+// dupeChannel.on("number", payload => {
+//   console.log("new number received", payload)
+// })
+// dupeChannel.join()
 
 // let statsSocket = new Socket("/stats_socket", {})
 // statsSocket.connect()
@@ -150,14 +150,21 @@ dupeChannel.join()
 //     .receive("ok", () => { console.log("Paralell slow ping response", i) })
 // }
 
-let authUserChannel = authSocket.channel(`user:${window.userId}`)
+// let authUserChannel = authSocket.channel(`user:${window.userId}`)
 
-authUserChannel.on("push", (payload) => {
-  console.log("received auth user push", payload)
-})
+// authUserChannel.on("push", (payload) => {
+//   console.log("received auth user push", payload)
+// })
 
-authUserChannel.on("push_timed", (payload) => {
-  console.log("received timed auth user push", payload)
-})
+// authUserChannel.on("push_timed", (payload) => {
+//   console.log("received timed auth user push", payload)
+// })
 
-authUserChannel.join()
+// authUserChannel.join()
+
+const trackedSocket = new Socket("/auth_socket", {params: {token: window.authToken}})
+
+trackedSocket.connect()
+
+const trackerChannel = trackedSocket.channel("tracked")
+trackerChannel.join()

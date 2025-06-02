@@ -4,7 +4,7 @@ defmodule HelloSocketsWeb.TrackedChannel do
   alias HelloSocketsWeb.UserTracker
 
   def join("tracked", _payload, socket) do
-    send(self(), :afer_join)
+    send(self(), :after_join)
     {:ok, socket}
   end
 
